@@ -1,0 +1,105 @@
+/* Reseta as margens padrão */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.landing-page {
+  text-align: center;
+  color: #4a3b32; /* Cor marrom (lembra pão/café) */
+}
+
+/* Cabeçalho */
+.header {
+  background-color: #f4e8d3;
+  padding: 20px;
+  border-bottom: 2px solid #e0c8a0;
+}
+
+.header h1 {
+    color: #7d4f24;
+
+}
+
+/* Hero Section */
+.hero {
+  padding: 60px 20px;
+  background-color: #fffaf0;
+}
+.hero h2 {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: #8b5a2b;
+}
+.hero p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 30px auto;
+  line-height: 1.6;
+}
+.btn-whatsapp {
+  background-color: #25D366; /* Verde do WhatsApp */
+  color: white;
+  padding: 15px 30px;
+  text-decoration: none;
+  outline: none;  
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50px;
+  transition: 0.3s;
+}
+.btn-whatsapp:hover {
+  background-color: #1ebd5a;
+}
+
+/* Produtos */
+.produtos {
+  padding: 50px 20px;
+  background-color: #ffffff;
+}
+.produtos h3 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+.cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.card {
+  background-color: #fdfbf7;
+  border: 1px solid #e8dcc4;
+  border-radius: 10px;
+  padding: 20px;
+  width: 280px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+.card .icone {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+.card h4 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+.card p {
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+  color: #666;
+}
+.card .preco {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #d2691e;
+}
+
+/* Rodapé */
+.footer {
+  background-color: #4a3b32;
+  color: white;
+  padding: 20px;
+  margin-top: 20px;
+}
