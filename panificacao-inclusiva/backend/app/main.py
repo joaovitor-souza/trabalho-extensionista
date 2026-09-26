@@ -111,7 +111,7 @@ def listar_produtos_publico(db: Session = Depends(get_db)):
 
 # Cache público: dado que quase nunca muda. O navegador serve a cópia local por
 # 5 min e revalida em background. NUNCA aplicar em /api/admin/* (é conteúdo por sessão).
-_CACHE_PUBLICO = "public, max-age=300, stale-while-revalidate=86400"
+_CACHE_PUBLICO = "no-cache, no-store, must-revalidate"
 
 
 @app.get("/api/config", response_model=schemas.ConfigOut)

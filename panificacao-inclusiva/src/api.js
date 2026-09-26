@@ -15,6 +15,7 @@ async function request(path, options = {}) {
       : { "Content-Type": "application/json", ...options.headers };
   const resposta = await fetch(`${API_URL}${path}`, {
     credentials: "include",
+    cache: "no-store",
     ...options,
     headers,
   });
