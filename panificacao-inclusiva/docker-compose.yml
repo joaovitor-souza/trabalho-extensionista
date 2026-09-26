@@ -31,8 +31,8 @@ services:
       - R2_ENDPOINT_URL=${R2_ENDPOINT_URL:-}
     volumes:
       # Persistência de banco de dados SQLite e uploads em disco local
-      - naturalpani_data:/app/data
-      - naturalpani_uploads:/app/uploads
+      - ./data:/app/data
+      - ./uploads:/app/uploads
     expose:
       - "8123"
     ports:
@@ -63,11 +63,6 @@ services:
     expose:
       - "80"
     ports:
-      # Porta pública na VPS (ex: 8080 ou 8081 para não colidir com a porta 80/443 do PDV)
-      - "${NATURALPANI_FRONTEND_PORT:-8080}:80"
+      # Porta pública na VPS (porta 8085 para não colidir com o PDV na 8080)
+      - "${NATURALPANI_FRONTEND_PORT:-8085}:80"
 
-volumes:
-  naturalpani_data:
-    name: naturalpani_sqlite_data
-  naturalpani_uploads:
-    name: naturalpani_uploads_data
