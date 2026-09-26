@@ -1,0 +1,68 @@
+services:
+  # ----------------------------------------------------------------------------
+  # Backend da Natural Pani (FastAPI)
+  # ----------------------------------------------------------------------------
+  naturalpani-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: naturalpani-backend
+    restart: unless-stopped
+    environment:
+      # Preencha ou configure via arquivo .env na VPS
+      - DEBUG=${DEBUG:-false}
+      - SECRET_KEY=${SECRET_KEY:?Defina SECRET_KEY no .env}
+      - DATABASE_URL=${DATABASE_URL:-sqlite:////app/data/padaria.db}
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost,http://localhost:8080}
+      - ADMIN_USUARIO_PADRAO=${ADMIN_USUARIO_PADRAO:-admin}
+      - ADMIN_SENHA_PADRAO=${ADMIN_SENHA_PADRAO:-admin123}
+      - NOME_LOJA_PADRAO=${NOME_LOJA_PADRAO:-Natural Pani}
+      - WHATSAPP_PADRAO=${WHATSAPP_PADRAO:-5522981535778}
+      - SESSION_HOURS=${SESSION_HOURS:-8}
+      - RATE_LIMIT_ENABLED=${RATE_LIMIT_ENABLED:-true}
+      - COOKIE_SAMESITE=${COOKIE_SAMESITE:-lax}
+      - COOKIE_SECURE=${COOKIE_SECURE:-true}
+      # Cloudflare R2 (opcional, se configurado)
+      - R2_ACCOUNT_ID=${R2_ACCOUNT_ID:-}
+      - R2_ACCESS_KEY_ID=${R2_ACCESS_KEY_ID:-}
+      - R2_SECRET_ACCESS_KEY=${R2_SECRET_ACCESS_KEY:-}
+      - R2_BUCKET=${R2_BUCKET:-}
+      - R2_PUBLIC_URL=${R2_PUBLIC_URL:-}
+      - R2_ENDPOINT_URL=${R2_ENDPOINT_URL:-}
+    volumes:
+      # Persistência de banco de dados SQLite e uploads em disco local
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+    expose:
+      - "8123"
+    ports:
+      # Porta exposta para a VPS (altere se a porta 8123 já estiver em uso pelo PDV)
+      - "${NATURALPANI_BACKEND_PORT:-8123}:8123"
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8123/api/config')\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # ----------------------------------------------------------------------------
+  # Frontend da Natural Pani (SPA React compilada servida por Nginx)
+  # ----------------------------------------------------------------------------
+  naturalpani-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Se você usa proxy reverso unificado na VPS (ex: /api encaminha pro backend),
+        # deixe vazio ou como "". Se a API for acessada em porta ou subdomínio direto, defina a URL.
+        - VITE_API_URL=${VITE_API_URL:-}
+    container_name: naturalpani-frontend
+    restart: unless-stopped
+    depends_on:
+      - naturalpani-backend
+    expose:
+      - "80"
+    ports:
+      # Porta pública na VPS (porta 8085 para não colidir com o PDV na 8080)
+      - "${NATURALPANI_FRONTEND_PORT:-8085}:80"
+
